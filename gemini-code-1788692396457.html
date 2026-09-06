@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIIPY - Official Creator Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 28, 45, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-red: #ff3366;
+            --accent-purple: #7928ca;
+            --accent-cyan: #00dfd8;
+            --accent-gold: #ffb703;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(121, 40, 202, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(255, 51, 102, 0.12) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, .logo-text { font-family: 'Outfit', sans-serif; }
+
+        /* NAVBAR */
+        header {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            width: 42px; height: 42px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 20px;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); color: white;
+        }
+        .logo-text { font-size: 26px; font-weight: 900; letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: 6px; }
+        .logo-text span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        .verified-badge {
+            background: rgba(0, 223, 216, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            vertical-align: middle;
+        }
+
+        nav { display: flex; gap: 24px; align-items: center; }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 15px; transition: all 0.3s ease; }
+        nav a:hover { color: #fff; }
+
+        .vip-nav-btn {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            color: #fff !important; padding: 10px 22px; border-radius: 30px; font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+        }
+
+        /* HERO */
+        .hero { text-align: center; padding: 80px 20px 50px 20px; }
+        .hero-badge {
+            display: inline-block; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border); padding: 6px 18px; border-radius: 20px;
+            font-size: 14px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 52px; font-weight: 900; line-height: 1.1; margin-bottom: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: var(--text-muted); font-size: 18px; max-width: 650px; margin: 0 auto 35px auto; }
+
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: #ff0000; color: white; padding: 14px 32px; font-size: 16px;
+            font-weight: 700; border-radius: 30px; text-decoration: none; display: inline-flex;
+            align-items: center; gap: 10px; box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--card-border);
+            padding: 14px 32px; font-size: 16px; font-weight: 700; border-radius: 30px; text-decoration: none;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-title { font-size: 32px; font-weight: 800; margin-bottom: 30px; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; }
+
+        /* PLAYLIST & VIDEO CARDS */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 20px; overflow: hidden; backdrop-filter: blur(10px);
+            transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+        
+        .thumb-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #1a1a24; overflow: hidden; }
+        .thumb-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .card:hover .thumb-box img { transform: scale(1.05); }
+        
+        /* SECRET TEXT THUMBNAIL BOX */
+        .secret-thumb-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #161c2d, #0b0f19);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .secret-title-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 223, 216, 0.5);
+        }
+
+        .play-btn-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 55px; height: 55px; background: rgba(255, 0, 0, 0.9); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 22px; color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .card-info p { color: var(--text-muted); font-size: 14px; margin-bottom: 15px; }
+        .card-link-text { color: var(--accent-cyan); font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+
+        /* BADGES IN CARDS */
+        .card-badge {
+            position: absolute; top: 12px; left: 12px;
+            background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(8px);
+            color: var(--accent-gold); border: 1px solid var(--accent-gold);
+            padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* VIP ZONE */
+        .vip-container {
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.08) 0%, rgba(121, 40, 202, 0.08) 100%);
+            border: 1px solid rgba(255, 51, 102, 0.25); border-radius: 24px; padding: 45px 30px;
+            margin-bottom: 70px; text-align: center; backdrop-filter: blur(12px);
+        }
+        .vip-badge {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-red));
+            color: #000; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
+        }
+        .vip-container h2 { font-size: 36px; font-weight: 900; margin-bottom: 12px; }
+        .vip-container p { color: var(--text-muted); max-width: 550px; margin: 0 auto 30px auto; font-size: 16px; }
+
+        .vip-lock-box { display: flex; flex-direction: column; align-items: center; gap: 15px; max-width: 400px; margin: 0 auto; }
+        .password-input {
+            width: 100%; padding: 16px 20px; font-size: 16px; border-radius: 14px;
+            border: 1px solid var(--card-border); background: rgba(11, 15, 25, 0.8);
+            color: #fff; text-align: center; outline: none; letter-spacing: 2px; font-weight: 700;
+        }
+        .unlock-btn {
+            width: 100%; background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            color: white; border: none; padding: 16px; font-size: 16px; font-weight: 800;
+            border-radius: 14px; cursor: pointer;
+        }
+        #error-msg { color: #ff4d4d; font-size: 14px; font-weight: 600; display: none; }
+
+        .vip-unlocked-content { display: none; text-align: left; max-width: 500px; margin: 25px auto 0 auto; }
+
+        /* SHOP & FOOTER */
+        .vinted-btn {
+            background: #007787; color: white; padding: 14px 28px; border-radius: 14px;
+            text-decoration: none; font-weight: 700; display: inline-block; margin-top: 15px;
+        }
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); border-top: 1px solid var(--card-border); font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <a href="#" class="logo">
+            <div class="logo-badge">▶</div>
+            <div class="logo-text">WII<span>PY</span> <span class="verified-badge">VERIFIED</span></div>
+        </a>
+        <nav>
+            <a href="#playlists">Playlists</a>
+            <a href="#shop">Webshop</a>
+            <a href="#vip" class="vip-nav-btn">🔒 VIP Pass</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-badge">OFFICIAL CREATOR HUB</div>
+        <h1>Welcome to WIIPY's World</h1>
+        <p>Your main destination for gaming series, Winter Resort Simulator builds, live streams, and exclusive member content!</p>
+        <div class="cta-buttons">
+            <a href="https://www.youtube.com/@wiipy/videos" target="_blank" class="btn-primary">
+                ▶ Subscribe on YouTube
+            </a>
+            <a href="#vip" class="btn-secondary">
+                🔑 VIP Portal
+            </a>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- FEATURED PLAYLISTS SECTION -->
+        <section id="playlists">
+            <h2 class="section-title">Featured Playlists</h2>
+            
+            <div class="grid-cards">
+                <!-- PLAYLIST 1 CARD -->
+                <a href="https://www.youtube.com/show/VLPLQBLxyBQrc2o?sbp=QAE%253D" target="_blank" class="card">
+                    <div class="thumb-box">
+                        <span class="card-badge">PUBLIC</span>
+                        <img src="WINTER 25-26 (1).jpg" alt="Winter Resort Simulator Season 2026-2027">
+                        <div class="play-btn-overlay">▶</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Winter Resort Simulator 2 - Season 2026-2027</h3>
+                        <p>Watch full public playlist episodes directly on YouTube.</p>
+                        <span class="card-link-text">Open Playlist 1 &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- PLAYLIST 2 CARD -->
+                <a href="https://www.youtube.com/show/VLPLbBWeIrAezyE?sbp=QAE%253D" target="_blank" class="card">
+                    <div class="thumb-box">
+                        <span class="card-badge">PUBLIC</span>
+                        <img src="WINTER 25-26 (1).jpg" alt="Featured Gameplay Series">
+                        <div class="play-btn-overlay">▶</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Featured Community & Gameplay Series</h3>
+                        <p>Explore another awesome video collection on WIIPY channel.</p>
+                        <span class="card-link-text">Open Playlist 2 &rarr;</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- EXCLUSIVE VIP ZONE -->
+        <section id="vip">
+            <div class="vip-container">
+                <div class="vip-badge">👑 WIIPY VIP PASS</div>
+                <h2>🔒 Secret VIP Zone</h2>
+                <p>Unlock exclusive hidden playlists and unlisted videos!</p>
+
+                <!-- LOCKED STATE -->
+                <div id="vip-lock" class="vip-lock-box">
+                    <input type="password" id="vip-pass" class="password-input" placeholder="ENTER SECRET PASSWORD">
+                    <button onclick="checkPassword()" class="unlock-btn">UNLOCK CONTENT</button>
+                    <p id="error-msg">Incorrect password! Hint: Check the channel subscribe button 😉</p>
+                </div>
+
+                <!-- UNLOCKED STATE -->
+                <div id="vip-unlocked" class="vip-unlocked-content">
+                    <h3 style="color: var(--accent-cyan); text-align: center; font-size: 26px; margin-bottom: 20px;">🎉 VIP Access Granted!</h3>
+
+                    <!-- UNLISTED PLAYLIST CARD (NO IMAGE THUMBNAIL) -->
+                    <a href="https://www.youtube.com/playlist?list=PLe9cUeKyTz0c" target="_blank" class="card">
+                        <div class="secret-thumb-box">
+                            <span class="card-badge" style="color: var(--accent-cyan); border-color: var(--accent-cyan);">UNLISTED FEED</span>
+                            <div class="secret-title-text">SECRET VIDEOS</div>
+                            <div class="play-btn-overlay">▶</div>
+                        </div>
+                        <div class="card-info">
+                            <h3>🎬 Secret Unlisted Playlist</h3>
+                            <p>Exclusive hidden videos for password holders only.</p>
+                            <span class="card-link-text">Watch Secret Playlist &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- WEBSHOP SECTION -->
+        <section id="shop" style="margin-bottom: 80px;">
+            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 35px; backdrop-filter: blur(10px);">
+                <h3 style="font-size: 26px; margin-bottom: 10px;">🛍️ Official Closet Webshop</h3>
+                <p style="color: var(--text-muted);">Looking for cool clothing, items, or merchandise? Check out the official Vinted webshop store for exclusive listings!</p>
+                <a href="https://www.vinted.nl/member/259858897" target="_blank" class="vinted-btn">
+                    Visit Official Vinted Shop &rarr;
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 WIIPY Official. All Rights Reserved. Built for the WIIPY Community.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('vip-pass').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+            const vipLock = document.getElementById('vip-lock');
+            const vipUnlocked = document.getElementById('vip-unlocked');
+
+            if (input === 'SUBSCRIBE') {
+                vipLock.style.display = 'none';
+                vipUnlocked.style.display = 'block';
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        document.getElementById('vip-pass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { checkPassword(); }
+        });
+    </script>
+</body>
+</html>
