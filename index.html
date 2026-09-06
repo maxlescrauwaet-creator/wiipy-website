@@ -6,39 +6,52 @@
     <title>WIIPY - Official Creator Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d111a;
-            --card-bg: rgba(20, 26, 40, 0.8);
-            --card-border: rgba(255, 165, 0, 0.15);
-            --accent-orange: #ff8c00;
-            --accent-yellow: #ffb703;
-            --accent-red: #ff3366;
-            --accent-purple: #9146ff;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --primary-blue: #0059de;
+            --primary-blue-hover: #0045b3;
+            --accent-orange: #ff6b00;
+            --text-main: #101828;
+            --text-muted: #475467;
+            --border-translucent: rgba(255, 255, 255, 0.6);
+            --card-glass: rgba(255, 255, 255, 0.85);
+            --shadow-smooth: 0 12px 32px 0 rgba(16, 24, 40, 0.06);
+            --shadow-hover: 0 20px 40px 0 rgba(16, 24, 40, 0.12);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
         body {
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #f0f4ff 0%, #fdfbf7 50%, #f5f8ff 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 140, 0, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 183, 3, 0.06) 0%, transparent 40%);
-            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
         }
 
-        h1, h2, h3, .logo-text { font-family: 'Outfit', sans-serif; }
+        /* SEAMLESS BACKGROUND GRADIENT MESH */
+        .gradient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 89, 222, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 70%, rgba(255, 107, 0, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 90%, rgba(145, 70, 255, 0.05) 0%, transparent 40%);
+        }
 
+        /* HEADER / NAV */
         header {
-            background: rgba(13, 17, 26, 0.9);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
             padding: 16px 5%;
             display: flex;
             justify-content: space-between;
@@ -46,374 +59,540 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
         }
 
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-badge {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-            width: 40px; height: 40px; border-radius: 10px; display: flex;
-            align-items: center; justify-content: center; font-size: 18px; color: #000; font-weight: 900;
+        .logo { font-size: 22px; font-weight: 800; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.02); }
+        .logo span { color: var(--primary-blue); }
+
+        nav { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+        nav a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.3s ease; }
+        nav a:hover { color: var(--primary-blue); transform: translateY(-1px); }
+
+        /* MAIN LAYOUT WITH SIDEBAR */
+        .page-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 48px 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 32px;
+            position: relative;
+            z-index: 1;
         }
-        .logo-text { font-size: 24px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px; }
-        .logo-text span { background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
+
+        @media (max-width: 968px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .main-content { min-width: 0; }
+
+        /* SIDEBAR STYLING */
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-smooth);
+        }
+
+        .sidebar-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .sidebar-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* PROFESSIONAL STATS LIST */
+        .stat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
         .verified-badge {
-            background: rgba(255, 183, 3, 0.15); color: var(--accent-yellow); border: 1px solid var(--accent-yellow);
-            font-size: 10px; padding: 2px 8px; border-radius: 8px; font-weight: 800; letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 89, 222, 0.1);
+            color: var(--primary-blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-bottom: 12px;
         }
 
-        nav { display: flex; gap: 18px; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.3s; }
-        nav a:hover { color: #fff; }
-
-        .vip-nav-btn {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-            color: #000 !important; padding: 8px 18px; border-radius: 20px; font-weight: 800 !important;
+        /* COOL FEATURED SHOWCASE BOX */
+        .showcase-box {
+            background: linear-gradient(135deg, rgba(0, 89, 222, 0.05) 0%, rgba(255, 107, 0, 0.05) 100%);
+            border: 1px solid rgba(0, 89, 222, 0.2);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .hero { text-align: center; padding: 50px 20px 30px 20px; }
-        .hero h1 { font-size: 48px; font-weight: 900; margin-bottom: 15px; color: #fff; letter-spacing: -0.5px; }
-        .hero p { color: var(--text-muted); font-size: 17px; max-width: 600px; margin: 0 auto 25px auto; }
-
-        .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
-        .btn-primary {
-            background: #ff0000; color: white; padding: 12px 28px; font-size: 15px;
-            font-weight: 700; border-radius: 25px; text-decoration: none; display: inline-flex;
-            align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-            transition: transform 0.2s;
+        .showcase-box h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
         }
-        .btn-primary:hover { transform: translateY(-2px); }
+
+        .showcase-btn {
+            background: var(--primary-blue);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 89, 222, 0.2);
+            display: inline-block;
+        }
+
+        .showcase-btn:hover {
+            background: var(--primary-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 24px;
+            padding: 56px 32px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-smooth);
+            transition: all 0.3s ease;
+        }
+        .hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 14px; color: var(--text-main); letter-spacing: -0.5px; }
+        .hero p { color: var(--text-muted); font-size: 15px; max-width: 600px; margin: 0 auto 28px auto; }
+
+        /* BUTTONS & SOCIAL BAR */
+        .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .btn-yt { background: #ff0000; color: #fff; padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(255, 0, 0, 0.25); }
+        .btn-yt:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 0, 0, 0.35); opacity: 0.95; }
         
-        .btn-twitch {
-            background: var(--accent-purple); color: white; padding: 12px 28px; font-size: 15px;
-            font-weight: 700; border-radius: 25px; text-decoration: none; display: inline-flex;
-            align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(145, 70, 255, 0.3);
-            transition: transform 0.2s;
-        }
-        .btn-twitch:hover { transform: translateY(-2px); }
+        .btn-twitch { background: #9146ff; color: #fff; padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(145, 70, 255, 0.25); }
+        .btn-twitch:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(145, 70, 255, 0.35); opacity: 0.95; }
+        
+        .btn-sec { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e8f0; color: var(--text-main); padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 12px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .btn-sec:hover { background: #ffffff; border-color: var(--primary-blue); color: var(--primary-blue); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 89, 222, 0.1); }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.06); color: white; border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 28px; font-size: 15px; font-weight: 700; border-radius: 25px; text-decoration: none;
-            transition: all 0.2s;
-        }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-orange); }
+        .social-bar { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+        .social-btn { background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(226, 232, 240, 0.8); color: var(--text-muted); padding: 8px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 13px; transition: all 0.3s ease; }
+        .social-btn:hover { border-color: var(--primary-blue); color: var(--primary-blue); background: #ffffff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 89, 222, 0.08); }
 
-        /* SOCIAL BAR */
-        .social-bar { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .social-icon-btn {
-            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main);
-            padding: 9px 16px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px;
-            display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
-        }
-        .social-icon-btn:hover { border-color: var(--accent-orange); transform: translateY(-2px); color: var(--accent-yellow); }
+        .section-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; display: inline-block; width: 6px; height: 20px; background: var(--accent-orange); border-radius: 3px; }
 
-        .container { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
-        .section-title { font-size: 28px; font-weight: 800; margin-bottom: 25px; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.08); }
+        /* GRID LAYOUTS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
 
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 50px; }
         .card {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
-            overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column;
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-smooth);
             transition: all 0.3s ease;
         }
-        .card:hover { transform: translateY(-4px); border-color: var(--accent-orange); box-shadow: 0 12px 30px rgba(255, 140, 0, 0.15); }
-        
-        .thumb-box { position: relative; width: 100%; aspect-ratio: 16/9; background: #151922; overflow: hidden; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-        .card:hover .thumb-box img { transform: scale(1.04); }
-        
-        .secret-thumb-box {
-            position: relative; width: 100%; aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #182030, #0d111a);
-            display: flex; align-items: center; justify-content: center;
-            border-bottom: 1px solid var(--card-border);
-        }
-        .secret-title-text { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent-yellow); text-shadow: 0 0 15px rgba(255, 183, 3, 0.4); }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: rgba(0, 89, 222, 0.3); }
 
-        .play-btn-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; background: rgba(255, 140, 0, 0.9); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 20px; color: #000; font-weight: 900;
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); transition: transform 0.2s;
-        }
-        .card:hover .play-btn-overlay { transform: translate(-50%, -50%) scale(1.1); }
+        .thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #e2e8f0; transition: transform 0.4s ease; }
+        .card:hover .thumb { transform: scale(1.02); }
 
-        .card-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-info h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #fff; }
-        .card-info p { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
-        .card-link-text { color: var(--accent-yellow); font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 4px; }
+        .card-info { padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .card-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+        .card-info p { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; }
+        .link-text { color: var(--primary-blue); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s ease; }
+        .card:hover .link-text { gap: 10px; }
 
-        .card-badge {
-            position: absolute; top: 10px; left: 10px;
-            background: rgba(13, 17, 26, 0.85); backdrop-filter: blur(6px);
-            color: var(--accent-yellow); border: 1px solid var(--accent-yellow);
-            padding: 3px 10px; border-radius: 15px; font-size: 10px; font-weight: 800;
-            letter-spacing: 0.5px; text-transform: uppercase; z-index: 10;
-        }
-
-        /* LATEST VIDEO SECTION STYLING */
-        .latest-section { margin-bottom: 50px; }
-        .featured-latest-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;
-            display: grid; grid-template-columns: 1.2fr 1fr; overflow: hidden; text-decoration: none; color: inherit;
+        /* STEAM MAPS LIST */
+        .link-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+        .link-item {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            padding: 20px 24px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            box-shadow: var(--shadow-smooth);
             transition: all 0.3s ease;
         }
-        .featured-latest-card:hover { border-color: var(--accent-orange); box-shadow: 0 12px 30px rgba(255, 140, 0, 0.15); }
-        @media(max-width: 768px) { .featured-latest-card { grid-template-columns: 1fr; } }
+        .link-item:hover { transform: translateY(-2px); border-color: var(--primary-blue); box-shadow: var(--shadow-hover); }
+        .link-item h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .link-item p { font-size: 13px; color: var(--text-muted); }
+        .steam-action { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; background: var(--primary-blue); padding: 8px 16px; border-radius: 10px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 89, 222, 0.2); }
+        .link-item:hover .steam-action { background: var(--primary-blue-hover); transform: scale(1.03); }
+
+        /* WEBSHOP & CONTACT SECTIONS */
+        .shop-box, .contact-box {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: var(--shadow-smooth);
+            transition: all 0.3s ease;
+        }
+        .shop-box:hover, .contact-box:hover { box-shadow: var(--shadow-hover); }
+        .vinted-btn { background: #09b1ba; color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(9, 177, 186, 0.25); }
+        .vinted-btn:hover { opacity: 0.95; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(9, 177, 186, 0.35); }
         
-        .latest-info { padding: 30px; display: flex; flex-direction: column; justify-content: center; }
-        .latest-badge { 
-            background: rgba(255, 140, 0, 0.15); color: var(--accent-orange); border: 1px solid var(--accent-orange);
-            font-size: 10px; padding: 3px 10px; border-radius: 15px; font-weight: 800; display: inline-block; width: fit-content; margin-bottom: 12px; 
-        }
+        .email-btn { background: var(--primary-blue); color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(0, 89, 222, 0.25); }
+        .email-btn:hover { background: var(--primary-blue-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 89, 222, 0.35); }
 
-        /* VIP ZONE CONTAINER & AUTH */
-        .vip-container {
-            background: linear-gradient(135deg, rgba(255, 140, 0, 0.06) 0%, rgba(255, 183, 3, 0.06) 100%);
-            border: 1px solid rgba(255, 140, 0, 0.2); border-radius: 20px; padding: 40px 25px;
-            margin-bottom: 50px; text-align: center; backdrop-filter: blur(10px);
+        /* MEMBER PORTAL / LOGIN */
+        .vip-box {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 20px;
+            padding: 40px 32px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-smooth);
+            transition: all 0.3s ease;
         }
-        .vip-badge {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-            color: #000; padding: 5px 14px; border-radius: 15px; font-size: 11px; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 12px;
-            box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
-        }
-        .vip-container h2 { font-size: 32px; font-weight: 900; margin-bottom: 10px; color: #fff; }
-        .vip-container p { color: var(--text-muted); max-width: 500px; margin: 0 auto 25px auto; font-size: 15px; }
+        .vip-box:hover { box-shadow: var(--shadow-hover); }
+        .auth-form { display: flex; flex-direction: column; gap: 14px; max-width: 360px; margin: 20px auto 0 auto; text-align: left; }
+        .auth-input { width: 100%; padding: 13px 16px; background: rgba(255, 255, 255, 0.9); border: 1px solid #cbd5e1; border-radius: 12px; color: var(--text-main); font-size: 14px; outline: none; transition: all 0.3s ease; }
+        .auth-input:focus { border-color: var(--primary-blue); background: #ffffff; box-shadow: 0 0 0 4px rgba(0, 89, 222, 0.1); }
+        .auth-btn { background: var(--primary-blue); color: #fff; border: none; padding: 13px; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(0, 89, 222, 0.25); }
+        .auth-btn:hover { background: var(--primary-blue-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 89, 222, 0.35); }
+        .toggle-auth { color: var(--text-muted); font-size: 13px; cursor: pointer; margin-top: 10px; display: inline-block; text-decoration: underline; text-align: center; width: 100%; font-weight: 600; transition: color 0.3s ease; }
+        .toggle-auth:hover { color: var(--primary-blue); }
+        #auth-error { color: #ef4444; font-size: 13px; display: none; text-align: center; font-weight: 600; }
+        .user-panel { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.8); padding: 14px 18px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .logout-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: var(--text-main); padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all 0.3s ease; }
+        .logout-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
 
-        .auth-form { display: flex; flex-direction: column; gap: 12px; max-width: 360px; margin: 0 auto; }
-        .auth-input {
-            width: 100%; padding: 12px; font-size: 14px; border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(13, 17, 26, 0.9); color: #fff; outline: none;
-            transition: border-color 0.2s;
-        }
-        .auth-input:focus { border-color: var(--accent-orange); }
-        .auth-btn {
-            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-            color: #000; border: none; padding: 12px; font-weight: 800; border-radius: 10px; cursor: pointer; transition: opacity 0.2s;
-        }
-        .auth-btn:hover { opacity: 0.9; }
-        .toggle-auth { color: var(--accent-yellow); cursor: pointer; font-size: 13px; margin-top: 8px; text-decoration: underline; display: inline-block; }
-        #auth-error { color: #ff4d4d; font-size: 13px; display: none; font-weight: 600; }
-
-        .user-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: rgba(13,17,26,0.6); padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
-        .logout-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 5px 14px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; }
-
-        #vip-unlocked { display: none; max-width: 480px; margin: 0 auto; text-align: left; }
-
-        /* WEBSHOP */
-        .shop-box {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;
-            padding: 30px; backdrop-filter: blur(10px); margin-bottom: 40px;
-        }
-        .vinted-btn {
-            background: #09b1ba; color: white; padding: 12px 24px; border-radius: 12px;
-            text-decoration: none; font-weight: 700; display: inline-block; margin-top: 12px;
-            transition: background 0.2s, transform 0.2s;
-        }
-        .vinted-btn:hover { background: #07939b; transform: translateY(-2px); }
-
-        footer { text-align: center; padding: 30px 20px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); font-size: 13px; }
+        footer { text-align: center; padding: 32px; color: var(--text-muted); font-size: 13px; border-top: 1px solid rgba(226, 232, 240, 0.8); background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <div class="gradient-mesh"></div>
+
     <header>
-        <a href="#" class="logo">
-            <div class="logo-badge">▶</div>
-            <div class="logo-text">WII<span>PY</span> <span class="verified-badge">VERIFIED</span></div>
-        </a>
+        <a href="#" class="logo">WIIPY</a>
         <nav>
             <a href="#latest">Latest</a>
             <a href="#playlists">Playlists</a>
             <a href="#livestreams">Livestreams</a>
+            <a href="#workshop">Steam Maps</a>
             <a href="#shop">Webshop</a>
-            <a href="#vip" class="vip-nav-btn">🔒 Member Area</a>
+            <a href="#contact">Contact</a>
+            <a href="#vip" style="color: var(--primary-blue);">Member Portal</a>
         </nav>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <h1>Welcome to WIIPY's World</h1>
-        <p>Your main destination for gaming series, Winter Resort Simulator builds, live streams, and exclusive member content!</p>
-        
-        <div class="cta-buttons">
-            <a href="https://www.youtube.com/@wiipy/videos" target="_blank" class="btn-primary">
-                ▶ YouTube Channel
-            </a>
-            <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="btn-twitch">
-                💜 Twitch Stream
-            </a>
-            <a href="#vip" class="btn-secondary">
-                🔑 Member Portal
-            </a>
-        </div>
+    <div class="page-wrapper">
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
 
-        <!-- SOCIAL MEDIA LINKS BAR -->
-        <div class="social-bar">
-            <a href="https://www.youtube.com/@wiipy" target="_blank" class="social-icon-btn">🔴 YouTube</a>
-            <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="social-icon-btn">💜 Twitch</a>
-            <a href="https://www.instagram.com/max_lescrauwaet?stkn=eHoycW56NjNreDVl&utm_source=qr" target="_blank" class="social-icon-btn">📸 Instagram</a>
-            <a href="https://www.tiktok.com/@maxlescauwaet?_r=1&_t=ZG-99VSCZX4r33" target="_blank" class="social-icon-btn">📱 TikTok</a>
-            <a href="https://discord.com/invite/34GpNCdf6F" target="_blank" class="social-icon-btn">💬 Discord</a>
-            <a href="https://www.vinted.nl/member/259858897" target="_blank" class="social-icon-btn">🛍️ Vinted</a>
-        </div>
-    </section>
-
-    <div class="container">
-        
-        <!-- LATEST VIDEO HIGHLIGHT SECTION -->
-        <section id="latest" class="latest-section">
-            <h2 class="section-title">Latest Highlight</h2>
-            <a href="https://www.youtube.com/@wiipy/videos" target="_blank" class="featured-latest-card">
-                <div class="thumb-box">
-                    <span class="card-badge" style="background: var(--accent-orange); color: #000; border: none;">NEW UPLOAD</span>
-                    <img src="laatste-video.jpg.jpg" alt="Latest WIIPY Video">
-                    <div class="play-btn-overlay">▶</div>
-                </div>
-                <div class="latest-info">
-                    <span class="latest-badge">FRESH ON CHANNEL</span>
-                    <h3>Watch the Latest Gameplay & Series Episodes</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">Catch up with the newest releases, special builds, and community updates straight from the channel.</p>
-                    <span class="card-link-text">Watch Now on YouTube &rarr;</span>
-                </div>
-            </a>
-        </section>
-
-        <!-- PLAYLISTS SECTION -->
-        <section id="playlists">
-            <h2 class="section-title">Featured Playlists</h2>
-            
-            <div class="grid-cards">
-                <!-- PLAYLIST 1: 2025-2026 -->
-                <a href="https://www.youtube.com/show/VLPLbBWeIrAezyE?sbp=KgtuZmFRMl9JWlFHb0AB" target="_blank" class="card">
-                    <div class="thumb-box">
-                        <span class="card-badge">SEASON</span>
-                        <img src="2025-2026.jpg" alt="Season 2025-2026">
-                        <div class="play-btn-overlay">▶</div>
-                    </div>
-                    <div class="card-info">
-                        <h3>Season 2025-2026</h3>
-                        <p>Explore all episodes and streams from the 2025-2026 season collection.</p>
-                        <span class="card-link-text">Open Playlist 2025-2026 &rarr;</span>
-                    </div>
-                </a>
-
-                <!-- PLAYLIST 2: 2026-2027 -->
-                <a href="https://www.youtube.com/show/VLPLQBLxyBQrc2o?sbp=Kgs0MHViOWNHNXJya0AB" target="_blank" class="card">
-                    <div class="thumb-box">
-                        <span class="card-badge" style="background: var(--accent-yellow); color: #000; border: none;">SEASON</span>
-                        <img src="2026-2027.jpg" alt="Season 2026-2027">
-                        <div class="play-btn-overlay">▶</div>
-                    </div>
-                    <div class="card-info">
-                        <h3>Season 2026-2027</h3>
-                        <p>Check out the latest ongoing series and updates for the 2026-2027 season.</p>
-                        <span class="card-link-text">Open Playlist 2026-2027 &rarr;</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- LIVESTREAMS SECTION -->
-        <section id="livestreams">
-            <h2 class="section-title">Livestream Hub</h2>
-            
-            <div class="grid-cards">
-                <!-- YOUTUBE LIVESTREAM PAGE -->
-                <a href="https://www.youtube.com/@wiipy/streams" target="_blank" class="card">
-                    <div class="thumb-box">
-                        <span class="card-badge" style="background: #ff0000; color: white; border: none;">YT LIVE</span>
-                        <img src="yt livestream foto.jpg" alt="YouTube Livestreams">
-                        <div class="play-btn-overlay">▶</div>
-                    </div>
-                    <div class="card-info">
-                        <h3>YouTube Live Streams</h3>
-                        <p>Watch back or join live stream broadcasts directly on the YouTube streams page.</p>
-                        <span class="card-link-text">Go to YouTube Streams &rarr;</span>
-                    </div>
-                </a>
-
-                <!-- TWITCH LIVESTREAM -->
-                <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="card">
-                    <div class="thumb-box">
-                        <span class="card-badge" style="background: var(--accent-purple); color: white; border: none;">TWITCH LIVE</span>
-                        <img src="foto twitch livestream.jpg" alt="Twitch Channel">
-                        <div class="play-btn-overlay">▶</div>
-                    </div>
-                    <div class="card-info">
-                        <h3>Twitch Channel</h3>
-                        <p>Follow and watch exclusive live gaming sessions over on Twitch.</p>
-                        <span class="card-link-text">Go to Twitch Stream &rarr;</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- MEMBER / VIP AREA WITH FIREBASE LOGIN -->
-        <section id="vip">
-            <div class="vip-container">
-                <div class="vip-badge">👑 WIIPY VIP PASS</div>
-                <h2>🔒 Member Portal</h2>
-                <p>Log in or create an account to access exclusive unlisted videos!</p>
-
-                <!-- LOGIN / REGISTER FORM -->
-                <div id="auth-box">
-                    <div class="auth-form">
-                        <input type="email" id="auth-email" class="auth-input" placeholder="Email address">
-                        <input type="password" id="auth-password" class="auth-input" placeholder="Password">
-                        <button id="auth-submit-btn" onclick="handleAuth()" class="auth-btn">LOGIN</button>
-                        <p id="auth-error"></p>
-                        <span id="auth-toggle" class="toggle-auth" onclick="toggleAuthMode()">No account yet? Register here</span>
-                    </div>
+            <section class="hero">
+                <h1>WIIPY Creator Hub</h1>
+                <p>Your central destination for all my YouTube videos, livestreams, custom Winter Resort Simulator 2 maps, and more!</p>
+                
+                <div class="cta-buttons">
+                    <a href="https://www.youtube.com/@wiipy/videos" target="_blank" class="btn-yt">▶ YouTube Channel</a>
+                    <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="btn-twitch">💜 Twitch Stream</a>
+                    <a href="#vip" class="btn-sec">🔑 Member Portal</a>
                 </div>
 
-                <!-- UNLOCKED CONTENT (VISIBLE WHEN LOGGED IN) -->
-                <div id="vip-unlocked">
-                    <div class="user-status">
-                        <span>Logged in as: <b id="user-email-display" style="color:var(--accent-yellow);"></b></span>
-                        <button onclick="logout()" class="logout-btn">Log out</button>
-                    </div>
+                <div class="social-bar">
+                    <a href="https://www.youtube.com/@wiipy" target="_blank" class="social-btn">YouTube</a>
+                    <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="social-btn">Twitch</a>
+                    <a href="https://www.instagram.com/max_lescrauwaet?stkn=eHoycW56NjNreDVl&utm_source=qr" target="_blank" class="social-btn">Instagram</a>
+                    <a href="https://www.tiktok.com/@maxlescauwaet?_r=1&_t=ZG-99VSCZX4r33" target="_blank" class="social-btn">TikTok</a>
+                    <a href="https://discord.com/invite/34GpNCdf6F" target="_blank" class="social-btn">Discord</a>
+                    <a href="https://www.vinted.nl/member/259858897" target="_blank" class="social-btn">Vinted</a>
+                </div>
+            </section>
 
-                    <a href="https://www.youtube.com/playlist?list=PLe9cUeKyTz0c" target="_blank" class="card">
-                        <div class="secret-thumb-box">
-                            <span class="card-badge" style="color: var(--accent-yellow); border-color: var(--accent-yellow);">UNLISTED FEED</span>
-                            <div class="secret-title-text">SECRET VIDEOS</div>
-                            <div class="play-btn-overlay">▶</div>
-                        </div>
-                        <div class="card-info">
-                            <h3>🎬 Secret Unlisted Playlist</h3>
-                            <p>Exclusive hidden videos for logged-in members only.</p>
-                            <span class="card-link-text">Watch Secret Playlist &rarr;</span>
+            <section id="latest">
+                <h2 class="section-title">Latest Highlight</h2>
+                <div class="grid" style="grid-template-columns: 1fr;">
+                    <a href="https://www.youtube.com/@wiipy/videos" target="_blank" class="card" style="flex-direction: row; flex-wrap: wrap;">
+                        <img src="laatste-video.jpg.jpg" alt="Latest Upload" class="thumb" style="flex: 1; min-width: 260px;">
+                        <div class="card-info" style="flex: 1; min-width: 260px; justify-content: center;">
+                            <h3>Watch the Latest Gameplay & Series Episodes</h3>
+                            <p>Catch up on the newest uploads, resort builds, and updates directly on YouTube.</p>
+                            <span class="link-text">Watch on YouTube &rarr;</span>
                         </div>
                     </a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- WEBSHOP SECTION -->
-        <section id="shop">
-            <div class="shop-box">
-                <h3 style="font-size: 24px; margin-bottom: 8px; color: #fff;">🛍️ Official Closet Webshop</h3>
-                <p style="color: var(--text-muted); font-size: 14px;">Looking for cool clothing, items, or merchandise? Check out the official Vinted webshop store for exclusive listings!</p>
-                <a href="https://www.vinted.nl/member/259858897" target="_blank" class="vinted-btn">
-                    Visit Official Vinted Shop &rarr;
-                </a>
-            </div>
-        </section>
+            <section id="playlists">
+                <h2 class="section-title">Playlists</h2>
+                <div class="grid">
+                    <a href="https://www.youtube.com/show/VLPLbBWeIrAezyE?sbp=KgtuZmFRMl9JWlFHb0AB" target="_blank" class="card">
+                        <img src="2025-2026.jpg" alt="Season 2025-2026" class="thumb">
+                        <div class="card-info">
+                            <div>
+                                <h3>Season 2025-2026</h3>
+                                <p>All episodes and streams from the 2025-2026 season.</p>
+                            </div>
+                            <span class="link-text">Open Playlist &rarr;</span>
+                        </div>
+                    </a>
 
+                    <a href="https://www.youtube.com/show/VLPLQBLxyBQrc2o?sbp=Kgs0MHViOWNHNXJya0AB" target="_blank" class="card">
+                        <img src="2026-2027.jpg" alt="Season 2026-2027" class="thumb">
+                        <div class="card-info">
+                            <div>
+                                <h3>Season 2026-2027</h3>
+                                <p>The newest ongoing series and updates.</p>
+                            </div>
+                            <span class="link-text">Open Playlist &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section id="livestreams">
+                <h2 class="section-title">Livestreams</h2>
+                <div class="grid">
+                    <a href="https://www.youtube.com/@wiipy/streams" target="_blank" class="card">
+                        <img src="yt livestream foto.jpg" alt="YouTube Livestream" class="thumb">
+                        <div class="card-info">
+                            <div>
+                                <h3>YouTube Livestreams</h3>
+                                <p>Watch previous broadcasts or tune in when I'm live.</p>
+                            </div>
+                            <span class="link-text">To YT Streams &rarr;</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.twitch.tv/wiipygaming" target="_blank" class="card">
+                        <img src="foto twitch livestream.jpg" alt="Twitch Livestream" class="thumb">
+                        <div class="card-info">
+                            <div>
+                                <h3>Twitch Channel</h3>
+                                <p>Follow my Twitch channel for live gaming sessions.</p>
+                            </div>
+                            <span class="link-text">To Twitch &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section id="workshop">
+                <h2 class="section-title">Winter Resort Simulator 2 Maps</h2>
+                <div class="link-list">
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3794464467" target="_blank" class="link-item">
+                        <div>
+                            <h3>Tannenwald</h3>
+                            <p>Steam Workshop Mod</p>
+                        </div>
+                        <span class="steam-action">Steam &rarr;</span>
+                    </a>
+
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3688662885" target="_blank" class="link-item">
+                        <div>
+                            <h3>Chrzanów - Polish Ski</h3>
+                            <p>Steam Workshop Mod</p>
+                        </div>
+                        <span class="steam-action">Steam &rarr;</span>
+                    </a>
+
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3683639227" target="_blank" class="link-item">
+                        <div>
+                            <h3>Altitude 1000 Resort</h3>
+                            <p>Steam Workshop Mod</p>
+                        </div>
+                        <span class="steam-action">Steam &rarr;</span>
+                    </a>
+
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3672824504" target="_blank" class="link-item">
+                        <div>
+                            <h3>Snowcrest Valley</h3>
+                            <p>Steam Workshop Mod</p>
+                        </div>
+                        <span class="steam-action">Steam &rarr;</span>
+                    </a>
+                </div>
+            </section>
+
+            <section id="shop">
+                <div class="shop-box">
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--text-main);">Official Closet Webshop</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Take a look at my Vinted store for clothing and items.</p>
+                    </div>
+                    <a href="https://www.vinted.nl/member/259858897" target="_blank" class="vinted-btn">Visit Vinted Shop &rarr;</a>
+                </div>
+            </section>
+
+            <section id="contact">
+                <div class="contact-box">
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--text-main);">Business & Sponsorships</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">For sponsorships or business inquiries, feel free to send an email.</p>
+                    </div>
+                    <a href="mailto:maxlescrauwaet@gmail.com" class="email-btn">maxlescrauwaet@gmail.com</a>
+                </div>
+            </section>
+
+            <section id="vip">
+                <div class="vip-box">
+                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Member Portal</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Log in to access the secret playlist featuring unlisted videos.</p>
+
+                    <div id="auth-box">
+                        <div class="auth-form">
+                            <label for="auth-email" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Email address</label>
+                            <input type="email" id="auth-email" class="auth-input" placeholder="name@example.com">
+                            
+                            <label for="auth-password" style="font-size: 13px; font-weight: 600; color: var(--text-main); margin-top: 4px;">Password</label>
+                            <input type="password" id="auth-password" class="auth-input" placeholder="••••••••">
+                            
+                            <button id="auth-submit-btn" onclick="handleAuth()" class="auth-btn" style="margin-top: 8px;">Login</button>
+                            <p id="auth-error"></p>
+                            <span id="auth-toggle" class="toggle-auth" onclick="toggleAuthMode()">No account? Register here</span>
+                        </div>
+                    </div>
+
+                    <div id="vip-unlocked" style="display: none;">
+                        <div class="user-panel">
+                            <span style="font-size: 14px;">Logged in as: <b id="user-email-display" style="color:var(--primary-blue);"></b></span>
+                            <button onclick="logout()" class="logout-btn">Logout</button>
+                        </div>
+
+                        <a href="https://www.youtube.com/playlist?list=PLe9cUeKyTz0c" target="_blank" class="card" style="margin-top: 15px;">
+                            <div class="card-info" style="align-items: center; text-align: center; padding: 30px;">
+                                <h3 style="color: var(--primary-blue); font-size: 18px;">🔓 Secret Videos (Unlisted Playlist)</h3>
+                                <p style="margin-bottom: 14px; color: var(--text-muted);">Click here to open the hidden playlist.</p>
+                                <span class="link-text">Open Playlist &rarr;</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- RIGHT SIDEBAR (CREATOR STATS & EXCLUSIVE HIGHLIGHTS) -->
+        <aside>
+            <div class="sidebar-card">
+                <div class="verified-badge">✓ Official Partner Hub</div>
+                <h3>Creator Overview</h3>
+                <p>Professional metrics and channel reach parameters.</p>
+                
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span class="stat-label">Primary Platform</span>
+                        <span class="stat-value">YouTube & Twitch</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Main Niche</span>
+                        <span class="stat-value">Simulation Gaming</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Response Time</span>
+                        <span class="stat-value">&lt; 24 Hours</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Business Email</span>
+                        <span class="stat-value" style="font-size: 11px; color: var(--primary-blue);">maxlescrauwaet@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXCLUSIVE CREATOR HIGHLIGHT (INSTEAD OF RANDOM ADS) -->
+            <div class="sidebar-card">
+                <h3>Community & Gear</h3>
+                <p>Join the conversation or check out personal recommendations.</p>
+                
+                <div class="showcase-box">
+                    <h4>💬 Join the Discord</h4>
+                    <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Connect with fellow gamers and fans.</p>
+                    <a href="https://discord.com/invite/34GpNCdf6F" target="_blank" class="showcase-btn">Open Discord</a>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Quick Notice</h3>
+                <p style="margin-bottom: 0;">Regularly check the Steam Workshop for new Winter Resort Simulator 2 updates and custom maps!</p>
+            </div>
+        </aside>
     </div>
 
-    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 WIIPY Official. All Rights Reserved. Built for the WIIPY Community.</p>
+        <p>&copy; 2026 WIIPY Official. All Rights Reserved.</p>
     </footer>
 
-    <!-- FIREBASE SDK SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
@@ -435,8 +614,8 @@
 
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
-            document.getElementById('auth-submit-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-            document.getElementById('auth-toggle').innerText = isLoginMode ? "No account yet? Register here" : "Already have an account? Login here";
+            document.getElementById('auth-submit-btn').innerText = isLoginMode ? "Login" : "Register";
+            document.getElementById('auth-toggle').innerText = isLoginMode ? "No account? Register here" : "Already have an account? Login here";
             document.getElementById('auth-error').style.display = 'none';
         }
 
@@ -448,11 +627,9 @@
             errorElement.style.display = 'none';
 
             if (isLoginMode) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .catch(error => showAuthError(error.message));
+                auth.signInWithEmailAndPassword(email, password).catch(error => showAuthError(error.message));
             } else {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .catch(error => showAuthError(error.message));
+                auth.createUserWithEmailAndPassword(email, password).catch(error => showAuthError(error.message));
             }
         }
 
