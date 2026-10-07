@@ -451,6 +451,14 @@
             <section id="workshop">
                 <h2 class="section-title">Winter Resort Simulator 2 Maps</h2>
                 <div class="link-list">
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3804932317" target="_blank" class="link-item">
+                        <div>
+                            <h3>Kranzberg</h3>
+                            <p>Steam Workshop Mod</p>
+                        </div>
+                        <span class="steam-action">Steam &rarr;</span>
+                    </a>
+
                     <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3794464467" target="_blank" class="link-item">
                         <div>
                             <h3>Tannenwald</h3>
@@ -508,7 +516,7 @@
             <section id="vip">
                 <div class="vip-box">
                     <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Member Portal</h2>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Log in to access the secret playlist featuring unlisted videos.</p>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Log in to access the secret playlist featuring unlisted videos and exclusive downloads.</p>
 
                     <div id="auth-box">
                         <div class="auth-form">
@@ -530,13 +538,23 @@
                             <button onclick="logout()" class="logout-btn">Logout</button>
                         </div>
 
-                        <a href="https://www.youtube.com/playlist?list=PLe9cUeKyTz0c" target="_blank" class="card" style="margin-top: 15px;">
-                            <div class="card-info" style="align-items: center; text-align: center; padding: 30px;">
-                                <h3 style="color: var(--primary-blue); font-size: 18px;">🔓 Secret Videos (Unlisted Playlist)</h3>
-                                <p style="margin-bottom: 14px; color: var(--text-muted);">Click here to open the hidden playlist.</p>
-                                <span class="link-text">Open Playlist &rarr;</span>
+                        <div class="grid" style="grid-template-columns: 1fr; gap: 15px; margin-top: 15px;">
+                            <a href="https://www.youtube.com/playlist?list=PLe9cUeKyTz0c" target="_blank" class="card">
+                                <div class="card-info" style="align-items: center; text-align: center; padding: 24px;">
+                                    <h3 style="color: var(--primary-blue); font-size: 18px;">🔓 Secret Videos (Unlisted Playlist)</h3>
+                                    <p style="margin-bottom: 10px; color: var(--text-muted);">Click here to open the hidden playlist.</p>
+                                    <span class="link-text">Open Playlist &rarr;</span>
+                                </div>
+                            </a>
+
+                            <div class="card" style="cursor: default;">
+                                <div class="card-info" style="align-items: center; text-align: center; padding: 24px;">
+                                    <h3 style="color: var(--accent-orange); font-size: 18px;">📦 WRS2 Terrain Importer EN</h3>
+                                    <p style="margin-bottom: 14px; color: var(--text-muted);">Download the complete tool package (.zip) to import real terrain directly into WRS2.</p>
+                                    <button onclick="downloadTerrainImporterZip()" class="showcase-btn" style="cursor: pointer; border: none;">Download Importer (.zip)</button>
+                                </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -595,6 +613,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <script>
         const firebaseConfig = {
@@ -643,18 +662,82 @@
             errorElement.style.display = 'block';
         }
 
-        auth.onAuthStateChanged(user => {
-            const authBox = document.getElementById('auth-box');
-            const vipUnlocked = document.getElementById('vip-unlocked');
-            const userEmailDisplay = document.getElementById('user-email-display');
+        async function downloadTerrainImporterZip() {
+            try {
+                const zip = new JSZip();
+                const folder = zip.folder("WRS2 Terrain Importer EN");
 
+                // Inhoud van de bestanden zoals aangeleverd in de bron
+                const readmeContent = `1. Extract the ZIP folder.
+2. Launch Winter Resort Simulator 2 and create a new Flat Map sandbox savegame.
+3. Save the game. You can either choose your own savegame name or keep the default one.
+4. Close Winter Resort Simulator 2.
+5. Run WRS 2 Terrain Importer.bat.
+6. Search for any place in the world. Keep in mind that the standard WRS2 map size is approximately 2458 m × 2458 m. You can search for:
+- mountain peaks
+- ski resorts
+- towns
+- villages
+- landmarks
+- other specific locations
+7. Click Search.
+8. Check whether the importer found the correct location. If it found the wrong place, you can manually enter the correct Latitude and Longitude.
+9. Click Generate terrain .bin.
+10. A new .bin file will appear inside the importer folder. The file name will be based on the location you searched for.
+11. Open your WRS2 savegames folder and replace the .bin file created by the game with the newly generated .bin file. Important: the new file must have the same name as the original .bin referenced by your savegame.`;
+
+                const batContent = `@echo off
+setlocal
+cd /d "%~dp0"
+where powershell.exe >nul 2>nul
+if errorlevel 1 (
+    echo Windows PowerShell was not found.
+    echo This tool requires Windows PowerShell 5.1, which is included with Windows 10/11.
+    pause
+    exit /b 1
+)
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0WRS2TerrainImporter.ps1"
+if errorlevel 1 (
+    echo.
+    echo The importer closed with an error.
+    pause
+)
+endlocal`;
+
+                const psContent = `param( [string]$BaseDir = $PSScriptRoot )
+Set-StrictMode -Version 2.0
+$ErrorActionPreference = 'Stop'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+Write-Host 'WRS2 Terrain Importer script loaded successfully.'`;
+
+                // Voeg bestanden toe aan de ZIP map
+                folder.file("README.txt", readmeContent);
+                folder.file("WRS 2 Terrain Importer.bat", batContent);
+                folder.file("WRS2TerrainImporter.ps1", psContent);
+
+                // Genereer het ZIP-bestand en start de download automatisch
+                const content = await zip.generateAsync({ type: "blob" });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = 'WRS2 Terrain Importer EN.zip';
+                link.click();
+            } catch (err) {
+                alert("Er is een fout opgetreden bij het genereren van het ZIP-bestand: " + err.message);
+            }
+        }
+
+        auth.onAuthStateChanged(user => {
             if (user) {
-                authBox.style.display = 'none';
-                vipUnlocked.style.display = 'block';
-                userEmailDisplay.innerText = user.email;
+                document.getElementById('auth-box').style.display = 'none';
+                document.getElementById('vip-unlocked').style.display = 'block';
+                document.getElementById('user-email-display').innerText = user.email;
             } else {
-                authBox.style.display = 'block';
-                vipUnlocked.style.display = 'none';
+                document.getElementById('auth-box').style.display = 'block';
+                document.getElementById('vip-unlocked').style.display = 'none';
+                document.getElementById('auth-email').value = '';
+                document.getElementById('auth-password').value = '';
             }
         });
     </script>
