@@ -286,6 +286,33 @@
         .steam-action { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; background: var(--primary-blue); padding: 8px 16px; border-radius: 10px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 89, 222, 0.2); }
         .link-item:hover .steam-action { background: var(--primary-blue-hover); transform: scale(1.03); }
 
+        /* VIDEO TUTORIAL CONTAINER */
+        .tutorial-box {
+            background: var(--card-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-translucent);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-smooth);
+        }
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         /* WEBSHOP & CONTACT SECTIONS */
         .shop-box, .contact-box {
             background: var(--card-glass);
@@ -350,6 +377,7 @@
             <a href="#playlists">Playlists</a>
             <a href="#livestreams">Livestreams</a>
             <a href="#workshop">Steam Maps</a>
+            <a href="#tutorial">Tutorial</a>
             <a href="#shop">Webshop</a>
             <a href="#contact">Contact</a>
             <a href="#vip" style="color: var(--primary-blue);">Member Portal</a>
@@ -490,6 +518,23 @@
                         </div>
                         <span class="steam-action">Steam &rarr;</span>
                     </a>
+                </div>
+            </section>
+
+            <!-- PROFESSIONELE VIDEO TUTORIAL SECTIE -->
+            <section id="tutorial">
+                <div class="tutorial-box">
+                    <h2 class="section-title" style="margin-bottom: 8px;">Steam Workshop Tutorial</h2>
+                    <p style="color: var(--text-muted); font-size: 14px;">Bekijk hieronder de instructievideo over hoe je zelf custom maps kunt uploaden naar de Steam Workshop voor Winter Resort Simulator 2.</p>
+                    
+                    <div class="video-container">
+                        <!-- Zorg dat 'WRS 2.mov' (of .mp4) in dezelfde map staat als je website bestanden -->
+                        <video controls preload="metadata">
+                            <source src="WRS 2.mov" type="video/quicktime">
+                            <source src="WRS 2.mp4" type="video/mp4">
+                            Jouw browser ondersteunt geen video-element.
+                        </video>
+                    </div>
                 </div>
             </section>
 
@@ -667,7 +712,6 @@
                 const zip = new JSZip();
                 const folder = zip.folder("WRS2 Terrain Importer EN");
 
-                // Inhoud van de bestanden zoals aangeleverd in de bron
                 const readmeContent = `1. Extract the ZIP folder.
 2. Launch Winter Resort Simulator 2 and create a new Flat Map sandbox savegame.
 3. Save the game. You can either choose your own savegame name or keep the default one.
@@ -712,12 +756,10 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Write-Host 'WRS2 Terrain Importer script loaded successfully.'`;
 
-                // Voeg bestanden toe aan de ZIP map
                 folder.file("README.txt", readmeContent);
                 folder.file("WRS 2 Terrain Importer.bat", batContent);
                 folder.file("WRS2TerrainImporter.ps1", psContent);
 
-                // Genereer het ZIP-bestand en start de download automatisch
                 const content = await zip.generateAsync({ type: "blob" });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(content);
