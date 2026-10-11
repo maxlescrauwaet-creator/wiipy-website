@@ -286,7 +286,7 @@
         .steam-action { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; background: var(--primary-blue); padding: 8px 16px; border-radius: 10px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 89, 222, 0.2); }
         .link-item:hover .steam-action { background: var(--primary-blue-hover); transform: scale(1.03); }
 
-        /* VIDEO TUTORIAL CONTAINER */
+        /* YOUTUBE VIDEO TUTORIAL CONTAINER */
         .tutorial-box {
             background: var(--card-glass);
             backdrop-filter: blur(16px);
@@ -306,10 +306,10 @@
             margin-top: 16px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
-        .video-container video {
+        .video-container iframe {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: 0;
             display: block;
         }
 
@@ -521,19 +521,14 @@
                 </div>
             </section>
 
-            <!-- PROFESSIONELE VIDEO TUTORIAL SECTIE -->
+            <!-- YOUTUBE VIDEO TUTORIAL SECTIE -->
             <section id="tutorial">
                 <div class="tutorial-box">
                     <h2 class="section-title" style="margin-bottom: 8px;">Steam Workshop Tutorial</h2>
                     <p style="color: var(--text-muted); font-size: 14px;">Bekijk hieronder de instructievideo over hoe je zelf custom maps kunt uploaden naar de Steam Workshop voor Winter Resort Simulator 2.</p>
                     
                     <div class="video-container">
-                        <!-- Zorg dat 'WRS 2.mov' (of .mp4) in dezelfde map staat als je website bestanden -->
-                        <video controls preload="metadata">
-                            <source src="WRS 2.mov" type="video/quicktime">
-                            <source src="WRS 2.mp4" type="video/mp4">
-                            Jouw browser ondersteunt geen video-element.
-                        </video>
+                        <iframe src="https://www.youtube.com/embed/C35CO2h6Yvc" title="Steam Workshop Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
             </section>
